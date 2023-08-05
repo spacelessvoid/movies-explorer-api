@@ -10,6 +10,8 @@ const cors = require("cors");
 const app = express();
 
 const { PORT, DB_ADDRESS } = process.env;
+const errorHandler = require("./middlewares/error-handler");
+const NotFoundError = require("./errors/not-found-error");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -30,6 +32,13 @@ app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("*", (req, res, next) => {
+  next(new NotFoundError("Requested resource was not found"));
+});
+
+app.use(errors());
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log("SERVER IS RUNNING");
