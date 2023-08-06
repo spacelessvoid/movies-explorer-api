@@ -5,13 +5,13 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "This field is required"],
+      required: [true, "Name is required"],
       minLength: [2, "This field should be at least 2 characters long"],
       maxLength: [30, "This field should be no more than 30 characters long"],
     },
     email: {
       type: String,
-      required: [true, "This field is required"],
+      required: [true, "Email is required"],
       unique: true,
       validate: {
         validator: (v) => isEmail(v),
@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "This field is required"],
+      required: [true, "Password is required"],
       select: false,
     },
   },

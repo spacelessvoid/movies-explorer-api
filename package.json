@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "npx eslint .",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "SET \"NODE_ENV=development\" && nodemon app"
   },
   "repository": {
     "type": "git",

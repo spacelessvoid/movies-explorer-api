@@ -9,10 +9,10 @@ const cors = require("cors");
 
 const app = express();
 
-const { PORT, DB_ADDRESS } = process.env;
+const { PORT = 3030, DB_ADDRESS = "mongodb://127.0.0.1:27017/filmexpdb" } = process.env;
 const errorHandler = require("./middlewares/error-handler");
-const NotFoundError = require("./errors/not-found-error");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+const router = require("./routes/index");
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -36,9 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use("*", (req, res, next) => {
-  next(new NotFoundError("Requested resource was not found"));
-});
+app.use(router);
 
 app.use(errorLogger);
 
