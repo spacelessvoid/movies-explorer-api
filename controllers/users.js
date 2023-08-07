@@ -6,6 +6,7 @@ const NotFoundError = require("../errors/not-found-error");
 const AuthError = require("../errors/authorization-error");
 const { CREATED, CONFLICT } = require("../errors/error-codes");
 
+const { NODE_ENV, JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
 const getUserInfo = (req, res, next) => {
@@ -53,9 +54,7 @@ const signup = (req, res, next) => {
       })
       .catch((error) => {
         if (error.name === ("ValidationError" || "CastError")) {
-          next(
-            new BadRequestError(`Data validation error (${error.message})`),
-          );
+          next(new BadRequestError(`Data validation error (${error.message})`));
           return;
         }
         if (error.code === 11000) {
@@ -71,7 +70,39 @@ const signup = (req, res, next) => {
   });
 };
 
-const signin = (req, res, next) => {};
+const signin = (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    next(new BadRequestError("Please provide email and password"));
+    return;
+  }
+
+  User.findOne({ email })
+    .select("+password")
+    .then((user) => {
+      if (!user) {
+        next(new AuthError("User doesn't exist"));
+        return;
+      }
+
+      bcrypt.compare(password, user.password, (err, isValidPassword) => {
+        if (!isValidPassword) {
+          next(new AuthError("Invalid password"));
+          return;
+        }
+
+        const token = jwt.sign(
+          { _id: user._id },
+          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+          { expiresIn: "7d" },
+        );
+
+        res.send({ token });
+      });
+    })
+    .catch(next);
+};
 
 module.exports = {
   getUserInfo,
