@@ -32,8 +32,8 @@ const createMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    owner: "64cfa34f6abc2a2896e3e585", // TODO: REMOVE AFTER TESTING
-    // owner: res.user._id,
+    // owner: "64cfa34f6abc2a2896e3e585", // TODO: REMOVE AFTER TESTING
+    owner: res.user._id,
     nameRU,
     nameEN,
   })

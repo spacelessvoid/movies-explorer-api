@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { Joi, celebrate } = require("celebrate");
+const { auth } = require("../middlewares/auth");
 const { signup, signin } = require("../controllers/users");
 const usersRouter = require("./users");
 const moviesRouter = require("./movies");
@@ -28,9 +29,9 @@ router.post(
   signin,
 );
 
-router.use("/users", usersRouter);
+router.use("/users", auth, usersRouter);
 
-router.use("/movies", moviesRouter);
+router.use("/movies", auth, moviesRouter);
 
 router.all("*", (req, res, next) => {
   next(new NotFoundError("Requested resource was not found"));
