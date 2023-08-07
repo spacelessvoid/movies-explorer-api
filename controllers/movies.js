@@ -4,7 +4,7 @@ const BadRequestError = require("../errors/request-error");
 const { FORBIDDEN, CREATED } = require("../errors/error-codes");
 
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: res.user._id })
     .then((movies) => res.send(movies))
     .catch((err) => next(err));
 };
@@ -32,7 +32,6 @@ const createMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    // owner: "64cfa34f6abc2a2896e3e585", // TODO: REMOVE AFTER TESTING
     owner: res.user._id,
     nameRU,
     nameEN,

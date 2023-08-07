@@ -65,6 +65,11 @@ const movieSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
+    // TODO enable after testing
+    // movieId: {
+    //   type: Number,
+    //   required: [true, "movieId is required"],
+    // },
     nameRU: {
       type: String,
       required: [true, "Name in Russian is required"],
