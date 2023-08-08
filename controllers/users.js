@@ -5,8 +5,8 @@ const BadRequestError = require("../errors/request-error");
 const NotFoundError = require("../errors/not-found-error");
 const AuthError = require("../errors/authorization-error");
 const { CREATED, CONFLICT } = require("../errors/error-codes");
+const { SERVER_SECRET } = require("../utils/configs");
 
-const { NODE_ENV, JWT_SECRET } = process.env;
 const SALT_ROUNDS = 10;
 
 const getUserInfo = (req, res, next) => {
@@ -94,7 +94,7 @@ const signin = (req, res, next) => {
 
         const token = jwt.sign(
           { _id: user._id },
-          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+          SERVER_SECRET,
           { expiresIn: "7d" },
         );
 

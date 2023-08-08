@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
 const AuthError = require("../errors/authorization-error");
-
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { SERVER_SECRET } = require("../utils/configs");
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
@@ -17,7 +16,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(
       token,
-      NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
+      SERVER_SECRET,
     );
   } catch (err) {
     next(new AuthError("Invalid token. Please sign in"));
