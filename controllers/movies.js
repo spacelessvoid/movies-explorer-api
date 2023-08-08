@@ -52,7 +52,7 @@ const deleteMovieById = (req, res, next) => {
   const { movieId } = req.params;
 
   Movie.findById(movieId)
-    .orFail(() => new NotFoundError("Card not found"))
+    .orFail(() => new NotFoundError("Movie not found"))
     .then((movie) => {
       if (movie.owner.valueOf() !== res.user._id) {
         next(res.status(FORBIDDEN).send({ message: "Unauthorized action" }));
