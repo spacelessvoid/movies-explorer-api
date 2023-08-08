@@ -4,7 +4,8 @@ const User = require("../models/user");
 const BadRequestError = require("../errors/request-error");
 const NotFoundError = require("../errors/not-found-error");
 const AuthError = require("../errors/authorization-error");
-const { CREATED, CONFLICT } = require("../errors/error-codes");
+const ConflictError = require("../errors/conflict");
+const { CREATED } = require("../errors/error-codes");
 const { SERVER_SECRET } = require("../utils/configs");
 
 const SALT_ROUNDS = 10;
@@ -58,11 +59,7 @@ const signup = (req, res, next) => {
           return;
         }
         if (error.code === 11000) {
-          next(
-            res.status(CONFLICT).send({
-              message: `User with this email already exists (${error.message})`,
-            }),
-          );
+          next(new ConflictError(`User with this email already exists (${error.message})`));
           return;
         }
         next(error);

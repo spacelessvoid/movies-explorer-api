@@ -1,7 +1,8 @@
 const Movie = require("../models/movie");
 const NotFoundError = require("../errors/not-found-error");
 const BadRequestError = require("../errors/request-error");
-const { FORBIDDEN, CREATED } = require("../errors/error-codes");
+const ForbiddenError = require("../errors/forbidden");
+const { CREATED } = require("../errors/error-codes");
 
 const getMovies = (req, res, next) => {
   Movie.find({ owner: res.user._id })
@@ -55,7 +56,7 @@ const deleteMovieById = (req, res, next) => {
     .orFail(() => new NotFoundError("Movie not found"))
     .then((movie) => {
       if (movie.owner.valueOf() !== res.user._id) {
-        next(res.status(FORBIDDEN).send({ message: "Unauthorized action" }));
+        next(new ForbiddenError(`Unauthorized action`));
         return;
       }
 
