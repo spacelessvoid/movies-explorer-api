@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
-const {
-  urlRegExp,
-  // TODO: fix RegEx validation
-  // cyrillicRegExp,
-  // latinRegExp,
-} = require("../utils/constants");
+const { urlRegExp } = require("../utils/constants");
 
 const movieSchema = new mongoose.Schema(
   {
@@ -65,32 +60,17 @@ const movieSchema = new mongoose.Schema(
       type: mongoose.ObjectId,
       required: true,
     },
-    // TODO enable after testing
-    // movieId: {
-    //   type: Number,
-    //   required: [true, "movieId is required"],
-    // },
+    movieId: {
+      type: Number,
+      required: [true, "movieId is required"],
+    },
     nameRU: {
       type: String,
       required: [true, "Name in Russian is required"],
-      // validate: {
-      //   validator: (v) => {
-      //     const re = cyrillicRegExp;
-      //     return re.test(v);
-      //   },
-      //   message: "Input should be in Cyrillic characters",
-      // },
     },
     nameEN: {
       type: String,
       required: [true, "Name in English is required"],
-      // validate: {
-      //   validator: (v) => {
-      //     const re = latinRegExp;
-      //     return re.test(v);
-      //   },
-      //   message: "Input should be in Latin characters",
-      // },
     },
   },
   { versionKey: false },
