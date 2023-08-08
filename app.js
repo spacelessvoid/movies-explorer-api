@@ -14,6 +14,7 @@ const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const router = require("./routes/index");
 const { rateLimiterConfig, mongooseConfig } = require("./utils/configs");
+const { allowedCors } = require("./utils/constants");
 
 const limiter = rateLimit(rateLimiterConfig);
 
@@ -22,7 +23,7 @@ mongoose
   .then(() => console.log("DB is connected"))
   .catch((err) => console.log(err));
 
-app.use(cors());
+app.use(cors(allowedCors));
 app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
