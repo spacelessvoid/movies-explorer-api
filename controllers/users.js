@@ -40,6 +40,10 @@ const updateUserInfo = (req, res, next) => {
         next(new BadRequestError(`Data validation error. (${err.message})`));
         return;
       }
+      if (err.code === 11000) {
+        next(new ConflictError(`User with this email already exists (${err.message})`));
+        return;
+      }
       next(err);
     });
 };
