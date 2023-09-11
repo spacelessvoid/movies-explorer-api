@@ -18,6 +18,7 @@ const validateCreateMovie = () => celebrate({
       .uri({ scheme: [/https?/] }),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
+    movieId: Joi.number().required(),
   }),
 });
 

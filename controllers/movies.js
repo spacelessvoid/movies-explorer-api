@@ -22,6 +22,7 @@ const createMovie = (req, res, next) => {
     thumbnail,
     nameRU,
     nameEN,
+    movieId,
   } = req.body;
 
   Movie.create({
@@ -36,6 +37,7 @@ const createMovie = (req, res, next) => {
     owner: res.user._id,
     nameRU,
     nameEN,
+    movieId,
   })
     .then((movie) => {
       res.status(CREATED).send(movie);

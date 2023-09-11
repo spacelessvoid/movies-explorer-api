@@ -3,9 +3,11 @@ const urlRegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()
 const allowedCors = {
   origin: [
     "https://spacemovies.nomoreparties.co",
-    "https://spacemovies.nomoreparties.co",
-    "http://localhost:3001",
+    "http://spacemovies.nomoreparties.co",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:3001",
     "http://localhost:3000",
+    "http://localhost:3001",
   ],
 };
 

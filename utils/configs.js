@@ -6,7 +6,7 @@ const {
 
 const DEV_SECRET = "DEV-SECRET";
 const DEV_DB_ADDRESS = "mongodb://127.0.0.1:27017/filmexpdb";
-const DEV_PORT = 3000;
+const DEV_PORT = 3003;
 
 const SERVER_DB = NODE_ENV === "production" && DB_ADDRESS ? DB_ADDRESS : DEV_DB_ADDRESS;
 const SERVER_PORT = NODE_ENV === "production" && PORT ? PORT : DEV_PORT;

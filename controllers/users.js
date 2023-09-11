@@ -11,7 +11,7 @@ const { SERVER_SECRET } = require("../utils/configs");
 const SALT_ROUNDS = 10;
 
 const getUserInfo = (req, res, next) => {
-  User.findOne({ _id: res.user._id })
+  User.findById({ _id: res.user._id })
     .then((user) => {
       if (!user) {
         next(new NotFoundError("There is no user with this id"));
@@ -41,7 +41,11 @@ const updateUserInfo = (req, res, next) => {
         return;
       }
       if (err.code === 11000) {
-        next(new ConflictError(`User with this email already exists (${err.message})`));
+        next(
+          new ConflictError(
+            `User with this email already exists (${err.message})`,
+          ),
+        );
         return;
       }
       next(err);
@@ -63,7 +67,11 @@ const signup = (req, res, next) => {
           return;
         }
         if (error.code === 11000) {
-          next(new ConflictError(`User with this email already exists (${error.message})`));
+          next(
+            new ConflictError(
+              `User with this email already exists (${error.message})`,
+            ),
+          );
           return;
         }
         next(error);
@@ -93,11 +101,9 @@ const signin = (req, res, next) => {
           return;
         }
 
-        const token = jwt.sign(
-          { _id: user._id },
-          SERVER_SECRET,
-          { expiresIn: "7d" },
-        );
+        const token = jwt.sign({ _id: user._id }, SERVER_SECRET, {
+          expiresIn: "7d",
+        });
 
         res.send({ token });
       });
